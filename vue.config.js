@@ -7,6 +7,8 @@ module.exports = {
   assetsDir: "static",
   // assetslir: "./",
   baseUrl: process.env.NODE_ENV === "production" ? "./" : "/",
+  // BASE_API:
+  //   process.env.NODE_ENV === "production" ? "/" : "http://47.244.100.125:9999",
   chainWebpack: config => {
     config.resolve.alias.set("image", resolve("static/img"));
     if (process.env.NODE_ENV === "production") {

@@ -25,15 +25,15 @@
                       label-width="100px"
                       class="demo-ruleForm"
                     >
-                      <el-form-item label="主页类型" prop="type">
+                      <!-- <el-form-item label="主页类型" prop="type">
                         <el-select v-model="ruleForm.type" placeholder="请选择主页类型">
                           <el-option label="未分类" value="noclassy"></el-option>
                           <el-option label="新奇特" value="Novelty"></el-option>
                           <el-option label="服装" value="costume"></el-option>
                         </el-select>
-                      </el-form-item>
-                      <el-form-item label="URL地址" prop="url">
-                        <el-input placeholder="请输入主页地址为单击'首页'时的地址" v-model="ruleForm.url">
+                      </el-form-item>-->
+                      <el-form-item label="粉丝页名称" prop="url">
+                        <el-input placeholder="请输入粉丝页名称" v-model="ruleForm.url">
                           <template slot="prepend">Http://</template>
                         </el-input>
                       </el-form-item>
@@ -50,16 +50,16 @@
                   </div>
                   <div class="text item">
                     <el-form ref="form" :model="form" label-width="100px">
-                      <el-form-item label="主页类型">
+                      <!-- <el-form-item label="主页类型">
                         <el-select v-model="form.type" placeholder="请选择主页类型">
                           <el-option label="全部" value="all"></el-option>
                           <el-option label="未分类" value="noclassy"></el-option>
                           <el-option label="新奇特" value="Novelty"></el-option>
                           <el-option label="服装" value="costume"></el-option>
                         </el-select>
-                      </el-form-item>
-                      <el-form-item label="关键字">
-                        <el-input v-model="form.keywords" placeholder="请输入主页名称或主页链接或主页类型"></el-input>
+                      </el-form-item>-->
+                      <el-form-item label="粉丝页名称">
+                        <el-input v-model="form.keywords" placeholder="请输入粉丝页名称搜索"></el-input>
                       </el-form-item>
                       <el-form-item>
                         <el-button type="primary" @click="onSubmit">找一找</el-button>
@@ -109,8 +109,8 @@
                       <el-button type="text">上一年</el-button>
                     </el-row>
                     <el-row class="display" :gutter="10">
-                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="1">
-                        <label for>浏览次数：</label>
+                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="4">
+                        <label>浏览次数：</label>
                         <el-select v-model="scanTimes" placeholder="请选择">
                           <el-option
                             v-for="item in options"
@@ -120,52 +120,52 @@
                           ></el-option>
                         </el-select>
                       </el-col>
-                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="1">
-                        <label for>点赞次数：</label>
+                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="4">
+                        <label>点赞次数：</label>
                         <el-select v-model="clickTimes" placeholder="请选择">
                           <el-option
-                            v-for="item in options"
+                            v-for="item in options2"
                             :key="item.index"
                             :label="item.label"
                             :value="item.value"
                           ></el-option>
                         </el-select>
                       </el-col>
-                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="1">
-                        <label for>评论次数：</label>
+                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="4">
+                        <label>评论次数：</label>
                         <el-select v-model="markTimes" placeholder="请选择">
                           <el-option
-                            v-for="item in options"
+                            v-for="item in options2"
                             :key="item.index"
                             :label="item.label"
                             :value="item.value"
                           ></el-option>
                         </el-select>
                       </el-col>
-                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="1">
-                        <label for>分享次数</label>
+                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="4">
+                        <label>分享次数</label>
                         <el-select v-model="shareTimes" placeholder="请选择">
                           <el-option
-                            v-for="item in options"
+                            v-for="item in options2"
                             :key="item.index"
                             :label="item.label"
                             :value="item.value"
                           ></el-option>
                         </el-select>
                       </el-col>
-                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="1">
-                        <label for>发布地区：</label>
+                      <!-- <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="4">
+                        <label>发布地区：</label>
                         <el-select v-model="areas" placeholder="请选择">
                           <el-option
-                            v-for="item in options"
+                            v-for="item in areasItems"
                             :key="item.index"
                             :label="item.label"
                             :value="item.value"
                           ></el-option>
                         </el-select>
                       </el-col>
-                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="1">
-                        <label for>主页类型：</label>
+                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="4">
+                        <label>主页类型：</label>
                         <el-select v-model="type" placeholder="请选择">
                           <el-option
                             v-for="item in options"
@@ -174,24 +174,14 @@
                             :value="item.value"
                           ></el-option>
                         </el-select>
-                      </el-col>
+                      </el-col> -->
                     </el-row>
-                    <el-row>自定类型：
-                      <el-select v-model="scanTimes" placeholder="请选择">
-                        <el-option
-                          v-for="item in options"
-                          :key="item.index"
-                          :label="item.label"
-                          :value="item.value"
-                        ></el-option>
-                      </el-select>
-                    </el-row>
-                    <el-row>
+                    <el-row class="display" :gutter="10">
                       <el-col :span="4">
-                        <label for>排序</label>
-                        <el-select v-model="scanTimes" placeholder="请选择">
+                        <label>排序：</label>
+                        <el-select v-model="sort" placeholder="请选择">
                           <el-option
-                            v-for="item in options"
+                            v-for="item in sorts"
                             :key="item.index"
                             :label="item.label"
                             :value="item.value"
@@ -199,11 +189,23 @@
                         </el-select>
                       </el-col>
                       <el-col :span="6">
-                        <el-input v-model="input" placeholder="请输入内容"></el-input>
+                        <el-input v-model="keywords" placeholder="请输入主页名称、主页链接、广告详情描述"></el-input>
                       </el-col>
                       <el-col :span="6">
-                        <el-button>默认按钮</el-button>
-                        <el-button>默认按钮</el-button>
+                        <el-button>查询</el-button>
+                        <el-button>重置</el-button>
+                      </el-col>
+                    </el-row>
+                    <el-row class="display">
+                      <el-col :xs="24" :sm="8" :md="8" :lg="4" :xl="4">
+                        <el-card :body-style="{ padding: '0px' }">
+                          <div class="brand">
+                            <div class="littleLogo"></div>
+                            <div class="name">212</div>
+                          </div>
+                          <div class="introduction"></div>
+                          <div class="viedo"></div>
+                        </el-card>
                       </el-col>
                     </el-row>
                   </div>
@@ -261,29 +263,100 @@ export default {
           address: "上海市普陀区金沙江路 1516 弄"
         }
       ],
-      date: {},
-      scanTimes: {},
-      clickTimes: {},
-      markTimes: {},
-      shareTimes: {},
-      areas: {},
-      type: {},
+      date: "",
+      scanTimes: "",
+      clickTimes: "",
+      markTimes: "",
+      shareTimes: "",
+      areas: "",
+      type: "",
+      definedType: "",
+      sort: "",
+      keywords: "",
       options: [
         {
-          value: "",
+          value: "1",
           label: "0至5000"
         },
         {
-          value: "",
+          value: "2",
           label: "5千至1万"
         },
         {
-          value: "",
+          value: "3",
           label: "1万至10万"
         },
         {
-          value: "",
+          value: "4",
           label: "10万以上"
+        }
+      ],
+      options2: [
+        {
+          value: "1",
+          label: "0至500"
+        },
+        {
+          value: "2",
+          label: "5百至1千"
+        },
+        {
+          value: "2",
+          label: "1千至1万"
+        },
+        {
+          value: "2",
+          label: "1万以上"
+        }
+      ],
+      defineItems: [
+        {
+          value: "0",
+          label: "全部"
+        },
+        {
+          value: "1",
+          label: "未分类"
+        },
+        {
+          value: "0",
+          label: "新奇特"
+        },
+        {
+          value: "0",
+          label: "服装"
+        }
+      ],
+      sorts: [
+        {
+          value: "0",
+          label: "发布日期"
+        },
+        {
+          value: "1",
+          label: "浏览次数"
+        },
+        {
+          value: "2",
+          label: "点赞次数"
+        },
+        {
+          value: "3",
+          label: "评论次数"
+        },
+        {
+          value: "4",
+          label: "分享次数"
+        }
+      ],
+      areasItems: [
+        {
+          value: "0",
+          label: "美国"
+        },
+        {
+          value: "1",
+          label: "全部"
         }
       ]
     };
@@ -293,14 +366,16 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          this.$store.dispatch("AddPages", this.ruleForm.url);
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     },
-    onSubmit() {}
+    onSubmit() {
+      this.$store.dispatch("searchByState", this.form.keywords);
+    }
   }
 };
 </script>
@@ -349,6 +424,36 @@ export default {
             min-width: 84px;
             line-height: 40px;
           }
+        }
+      }
+      .item {
+        .el-row {
+          margin-bottom: 15px;
+        }
+      }
+      .el-card {
+        width: 100%;
+        padding: 10px;
+      }
+      .brand {
+        display: flex;
+        .littleLogo {
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .name {
+          line-height: 30px;
+          font-size: 16px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #337ab7;
+          cursor: pointer;
         }
       }
     }
