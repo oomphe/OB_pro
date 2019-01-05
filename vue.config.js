@@ -1,5 +1,6 @@
 //Vue.config.js
 const path = require("path");
+const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
@@ -17,8 +18,23 @@ module.exports = {
     } else {
       // 为开发环境修改配置...
     }
+  },
+  //配置跨域问题
+  devServer: {
+    // overlay: {
+    //   warnings: true,
+    //   errors: true
+    // },
+    open: IS_PROD,
+    host: "0.0.0.0",
+    port: 8010,
+    https: false,
+    hotOnly: false,
+    proxy: {
+      "/api": {
+        target: process.env.VUE_APP_BASE_API || "http://127.0.0.1:8080",
+        changeOrigin: true
+      }
+    }
   }
-  // devServer: {
-  //   proxy: "http://192.168.12.65:8091"
-  // }
 };

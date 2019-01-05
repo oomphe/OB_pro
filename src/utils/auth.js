@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-const tokenKey = "User-Token"
+const tokenKey = "User-Token";
 
 export function getToken() {
   return Cookies.get(tokenKey);

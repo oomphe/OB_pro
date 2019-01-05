@@ -8,38 +8,27 @@ export function addPages(name) {
   });
 }
 
-export function selectByState(state) {
+export function showPages(res) {
+  // const res = {
+  //   videoViews,
+  //   likes,
+  //   comments,
+  //   shares,
+  //   pages
+  // };
   return request({
-    url: "/crawler/selectByState",
-    method: "post",
-    data: { state }
+    url: "/crawler/showPages",
+    method: "get",
+    contentType: "application/json",
+    res: JSON.stringify(res),
+    dataType: "json",
+    params: res
   });
 }
 
-export function showPages(
-  postId,
-  pageId,
-  createdAt,
-  checkpoint,
-  videoViews,
-  likes,
-  comments,
-  shares,
-  pages
-) {
-  const res = {
-    postId,
-    pageId,
-    createdAt,
-    checkpoint,
-    videoViews,
-    likes,
-    comments,
-    shares,
-    pages
-  };
+export function searchByName(res) {
   return request({
-    url: "/crawler/showPages",
+    url: "/crawler/fuzzySearch",
     method: "get",
     params: res
   });

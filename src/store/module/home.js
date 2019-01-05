@@ -1,9 +1,10 @@
-import { addPages, selectByState } from "@/api/home";
-import { showPages } from "../../api/home";
+import { addPages } from "@/api/home";
+import { showPages, searchByName } from "../../api/home";
 const home = {
   state: {
     tableData: [], //search results
-    fansData: [] //粉丝页数据
+    fansData: [], //粉丝页数据
+    fansTable: [] //粉丝页表格数据
   },
   mutations: {
     SET_TABLEDATA(state, data) {
@@ -11,6 +12,9 @@ const home = {
     },
     SET_FANSDATA(state, data) {
       state.fansData = data;
+    },
+    SET_FANSTABLE(state, data) {
+      state.fansTable = data;
     }
   },
   actions: {
@@ -26,11 +30,11 @@ const home = {
           });
       });
     },
-    searchByState({ commit }, state) {
+    ShowPages({ commit }, res) {
       return new Promise(async (resolve, reject) => {
-        selectByState(state)
+        showPages(res)
           .then(data => {
-            commit("SET_TABLEDATA", data);
+            commit("SET_FANSDATA", data.data);
             resolve(data);
           })
           .catch(error => {
@@ -38,11 +42,11 @@ const home = {
           });
       });
     },
-    ShowPages({ commit }, res) {
+    SearchByName({ commit }, res) {
       return new Promise(async (resolve, reject) => {
-        showPages(res)
+        searchByName(res)
           .then(data => {
-            commit("SET_FANSDATA", data);
+            commit("SET_FANSTABLE", data.data);
             resolve(data);
           })
           .catch(error => {

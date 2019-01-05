@@ -70,20 +70,36 @@
                 <el-card class="box-card">
                   <template>
                     <el-table
-                      :data="tableData"
+                      :data="tableData.data"
                       style="width: 100%"
                       :default-sort="{prop: 'date', order: 'descending'}"
                     >
                       <el-table-column prop="logo" label="主页logo"></el-table-column>
                       <el-table-column prop="name" label="主页名称" sortable width="180"></el-table-column>
-                      <el-table-column prop="url" label="主页链接" sortable width="180"></el-table-column>
-                      <el-table-column prop="station" label="关联站点" sortable width="180"></el-table-column>
-                      <el-table-column prop="type" label="主页类型" sortable width="180"></el-table-column>
-                      <el-table-column prop="clickTimes" label="点赞次数" sortable width="180"></el-table-column>
-                      <el-table-column prop="followTimes" label="关注次数" sortable width="180"></el-table-column>
+                      <el-table-column
+                        prop="createdAt"
+                        label="创建时间"
+                        sortable
+                        :formatter="dateFormat"
+                        width="180"
+                      ></el-table-column>
+                      <el-table-column prop="shares" label="分享次数" sortable width="180"></el-table-column>
+                      <el-table-column prop="videoViews" label="浏览次数" sortable width="180"></el-table-column>
+                      <el-table-column prop="likes" label="点赞次数" sortable width="180"></el-table-column>
+                      <el-table-column prop="comments" label="评论次数" sortable width="180"></el-table-column>
                     </el-table>
                   </template>
                 </el-card>
+                <el-row>
+                  <el-pagination
+                    style="text-align: end"
+                    :current-page.sync="curPage_1"
+                    @current-change="handleCurrentChange"
+                    background
+                    layout="prev, pager, next"
+                    :total="40"
+                  ></el-pagination>
+                </el-row>
               </el-tab-pane>
               <el-tab-pane label="FaceBook视频广告信息展示" name="FcNews">
                 <el-card class="box-card">
@@ -174,7 +190,7 @@
                             :value="item.value"
                           ></el-option>
                         </el-select>
-                      </el-col> -->
+                      </el-col>-->
                     </el-row>
                     <el-row class="display" :gutter="10">
                       <el-col :span="4">
@@ -192,7 +208,7 @@
                         <el-input v-model="keywords" placeholder="请输入主页名称、主页链接、广告详情描述"></el-input>
                       </el-col>
                       <el-col :span="6">
-                        <el-button>查询</el-button>
+                        <el-button @click="search">查询</el-button>
                         <el-button>重置</el-button>
                       </el-col>
                     </el-row>
@@ -223,6 +239,8 @@
 <script>
 // @ is an alias to /src
 import baseHeader from "@/components/_baseHeader.vue"; //baseHeader是一个头部组件
+import { mapState } from "vuex";
+import { formatDate } from "@/components/filtersDate.js"; //时间过滤器
 export default {
   name: "about",
   components: {
@@ -234,6 +252,7 @@ export default {
       ruleForm: {
         type: "noclassy"
       },
+      time: "1543867206000",
       rules: {
         type: [{ required: true, message: "请选择类型", trigger: "change" }],
         url: [{ required: true, message: "请填写url", trigger: "blur" }]
@@ -241,33 +260,12 @@ export default {
       form: {
         type: "all"
       },
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ],
       date: "",
-      scanTimes: "",
-      clickTimes: "",
-      markTimes: "",
-      shareTimes: "",
+      scanTimes: [],
+      curPage_1: 1,
+      clickTimes: [],
+      markTimes: [],
+      shareTimes: [],
       areas: "",
       type: "",
       definedType: "",
@@ -275,37 +273,37 @@ export default {
       keywords: "",
       options: [
         {
-          value: "1",
+          value: [0, 5000],
           label: "0至5000"
         },
         {
-          value: "2",
+          value: [5000, 10000],
           label: "5千至1万"
         },
         {
-          value: "3",
+          value: [10000, 100000],
           label: "1万至10万"
         },
         {
-          value: "4",
+          value: [100000, -1],
           label: "10万以上"
         }
       ],
       options2: [
         {
-          value: "1",
+          value: [0, 500],
           label: "0至500"
         },
         {
-          value: "2",
+          value: [500, 1000],
           label: "5百至1千"
         },
         {
-          value: "2",
+          value: [1000, 10000],
           label: "1千至1万"
         },
         {
-          value: "2",
+          value: [10000, -1],
           label: "1万以上"
         }
       ],
@@ -361,20 +359,51 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.onSubmit();
+  },
+  computed: {
+    tableData() {
+      return this.$store.getters.fansTable;
+    }
+  },
   methods: {
+    dateFormat(row, column, cellValue, index) {
+      const daterc = row[column.property];
+      if (daterc != null) {
+        const dateMat = new Date(daterc);
+        return formatDate(dateMat, "yyyy-MM-dd hh:mm");
+      }
+    },
+    handleCurrentChange(val) {
+      this.curPage_1 = val;
+      this.onSubmit();
+    },
     handleClick(tab, event) {},
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store.dispatch("AddPages", this.ruleForm.url);
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
     },
     onSubmit() {
-      this.$store.dispatch("searchByState", this.form.keywords);
+      const name = this.form.keywords;
+      const pages = this.curPage_1;
+      const res = { name, pages };
+      this.$store.dispatch("SearchByName", res);
+    },
+    search() {
+      const scanTimes = JSON.stringify(this.scanTimes); //浏览次数
+      const clickTimes = JSON.stringify(this.clickTimes); //点赞次数
+      const markTimes = JSON.stringify(this.markTimes); //评论次数
+      const shareTimes = JSON.stringify(this.shareTimes); //分享次数
+      const pages = 1;
+      const res = { scanTimes, clickTimes, markTimes, shareTimes, pages };
+
+      this.$store.dispatch("ShowPages", res);
     }
   }
 };

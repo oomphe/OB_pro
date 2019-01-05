@@ -5,7 +5,7 @@ import axios from "axios";
 
 // 创建一个axios实例
 const service = axios.create({
-  baseURL: "http://47.244.100.125:9999", // 基础URL
+  baseURL: process.env.VUE_APP_BASE_API, // 基础URL
   timeout: 5000 // 超时时间
 });
 
