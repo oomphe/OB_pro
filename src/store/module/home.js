@@ -1,5 +1,6 @@
 import { addPages } from "@/api/home";
 import { showPages, searchByName } from "../../api/home";
+import { Message } from "element-ui";
 const home = {
   state: {
     tableData: [], //search results
@@ -7,22 +8,40 @@ const home = {
     fansTable: [] //粉丝页表格数据
   },
   mutations: {
+    //设置tableData的数据
     SET_TABLEDATA(state, data) {
       state.tableData = data;
     },
+    //设置fansData的数据
     SET_FANSDATA(state, data) {
       state.fansData = data;
     },
+    //设置fansTable的数据
     SET_FANSTABLE(state, data) {
       state.fansTable = data;
     }
   },
   actions: {
-    //addPages
+    //addPages（添加粉丝页）
     AddPages({ commit }, name) {
       return new Promise(async (resolve, reject) => {
         addPages(name)
           .then(data => {
+            if (data.data.state == "success") {
+              Message({
+                showClose: true,
+                message: "添加成功",
+                duration: 1000,
+                type: "success"
+              });
+            } else {
+              Message({
+                showClose: true,
+                message: "添加失败",
+                duration: 1000,
+                type: "error"
+              });
+            }
             resolve(data);
           })
           .catch(error => {
@@ -30,6 +49,7 @@ const home = {
           });
       });
     },
+    //显示粉丝页数据
     ShowPages({ commit }, res) {
       return new Promise(async (resolve, reject) => {
         showPages(res)

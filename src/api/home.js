@@ -9,27 +9,17 @@ export function addPages(name) {
 }
 
 export function showPages(res) {
-  // const res = {
-  //   videoViews,
-  //   likes,
-  //   comments,
-  //   shares,
-  //   pages
-  // };
   return request({
     url: "/crawler/showPages",
-    method: "get",
-    contentType: "application/json",
-    res: JSON.stringify(res),
-    dataType: "json",
-    params: res
+    method: "post",
+    data: res
   });
 }
 
 export function searchByName(res) {
   return request({
     url: "/crawler/fuzzySearch",
-    method: "get",
-    params: res
+    method: "post",
+    data: res
   });
 }

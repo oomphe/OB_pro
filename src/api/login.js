@@ -1,13 +1,9 @@
 import request from "@/utils/request";
 
-export function loginByUsername(username, password) {
-  const data = {
-    username,
-    password
-  };
+export function loginByUsername(res) {
   return request({
-    url: "/user/login",
+    url: "/crawler/login",
     method: "post",
-    data
+    data: res
   });
 }
