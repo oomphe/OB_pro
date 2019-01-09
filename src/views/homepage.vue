@@ -1,14 +1,15 @@
 <template>
-  <div class="about">
+  <div class="login">
     <el-container>
       <el-header>
         <base-header></base-header>
       </el-header>
       <el-main>
         <div class="flex-center">
-
           <el-col :span="22" class="container">
-              <div><el-button  type="text">登出</el-button></div>
+            <div>
+              <el-button type="text">登出</el-button>
+            </div>
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane label="FaceBook主页信息展示" name="FcIndex">
                 <el-card class="box-card">
@@ -267,7 +268,7 @@ import basePagination from "@/components/_basePagination.vue"; //basePagination�
 import { mapState } from "vuex";
 import { formatDate } from "@/components/filtersDate.js"; //时间过滤器
 export default {
-  name: "home",
+  name: "login",
   components: {
     baseHeader,
     basePagination
