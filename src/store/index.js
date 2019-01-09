@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import home from "./module/home";
 import user from "./module/user";
+import app from "./module/app";
 import getters from "./getters";
 // import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
@@ -9,7 +10,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     home,
-    user
+    user,
+    app
   },
   getters
   // // 持久化vuex状态

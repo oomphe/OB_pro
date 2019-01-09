@@ -7,3 +7,10 @@ export function loginByUsername(res) {
     data: res
   });
 }
+
+export function logout() {
+  return request({
+    url: "/crawler/logout",
+    method: "post"
+  });
+}

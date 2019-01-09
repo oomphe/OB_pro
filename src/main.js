@@ -6,7 +6,7 @@ import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
 import "../static/css/common.css";
-
+import "./permission"; // 路由权限控制
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 

@@ -3,6 +3,7 @@ import { showPages, searchByName } from "../../api/home";
 import { Message } from "element-ui";
 const home = {
   state: {
+    countNum: 0,
     tableData: [], //search results
     fansData: [], //粉丝页数据
     fansTable: [] //粉丝页表格数据
@@ -27,7 +28,7 @@ const home = {
       return new Promise(async (resolve, reject) => {
         addPages(name)
           .then(data => {
-            if (data.data.state == "success") {
+            if (data.data.code == "200") {
               Message({
                 showClose: true,
                 message: "添加成功",

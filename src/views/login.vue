@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="login">
     <el-container>
       <el-header>
         <base-header></base-header>
@@ -11,13 +11,13 @@
               <el-form ref="form" label-width="0px">
                 <div class="left login">登陆</div>
                 <el-form-item>
-                  <el-input v-model="form.account" placeholder="用户名"></el-input>
+                  <el-input v-model="form.account" @keyup.enter.native="onSubmit" placeholder="用户名"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-input type="password" v-model="form.pass" placeholder="密码"></el-input>
+                  <el-input type="password" v-model="form.pass" @keyup.enter.native="onSubmit" placeholder="密码"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button class="login-button" type="primary" @click="onSubmit">登陆</el-button>
+                  <el-button class="login-button" type="primary"  @click.native.prevent="onSubmit">登陆</el-button>
                 </el-form-item>
               </el-form>
               <!-- 弹出层 -->
@@ -70,8 +70,16 @@ export default {
           name: this.form.account,
           password: this.form.pass
         }
-        this.$store.dispatch("LoginByUsername", res);
+        this.$store.dispatch("LoginByUsername", res)
+        .then(() => {this.dump()})
+        .catch(err=>{});
       }
+    },
+    dump(){
+      this.$router.replace({ path: "/homepage" });
+    },
+    to404() {
+      this.$router.push("/404")
     }
   }
 };
@@ -84,7 +92,7 @@ export default {
 body {
   background: #eee;
 }
-.home {
+.login {
   .el-header {
     padding: 0;
     width: 100%;

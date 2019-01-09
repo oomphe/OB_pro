@@ -6,7 +6,9 @@
       </el-header>
       <el-main>
         <div class="flex-center">
+
           <el-col :span="22" class="container">
+              <div><el-button  type="text">登出</el-button></div>
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane label="FaceBook主页信息展示" name="FcIndex">
                 <el-card class="box-card">
@@ -448,6 +450,7 @@ export default {
   },
   mounted() {
     this.onSubmit();
+    this.search();
   },
   computed: {
     tableData() {
@@ -455,6 +458,13 @@ export default {
     },
     fansData() {
       return this.$store.getters.fansData;
+    }
+  },
+
+  filters: {
+    formatDate(time) {
+      const date = new Date(time);
+      return formatDate(date, "yyyy-MM-dd hh:mm");
     }
   },
   methods: {
@@ -483,7 +493,7 @@ export default {
         }
       });
     },
-    onSubmit(item) {
+    onSubmit() {
       const name = this.form.keywords;
       const pages = this.fansCurPage;
       const res = { name, pages };

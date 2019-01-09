@@ -5,6 +5,7 @@
       :current-page.sync="curPage"
       @current-change="handleCurrentChange"
       background
+      :page-size="curPageSize"
       layout="prev, pager, next"
       :total="totalnum"
     ></el-pagination>
@@ -18,7 +19,8 @@ export default {
   },
   data() {
     return {
-      curPage: 1
+      curPage: 1,
+      curPageSize: 20
     };
   },
   methods: {
