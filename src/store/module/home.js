@@ -3,7 +3,6 @@ import { showPages, searchByName } from "../../api/home";
 import { Message } from "element-ui";
 const home = {
   state: {
-    countNum: 0,
     tableData: [], //search results
     fansData: [], //粉丝页数据
     fansTable: [] //粉丝页表格数据
