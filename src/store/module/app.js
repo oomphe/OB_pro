@@ -17,7 +17,6 @@ const app = {
         let accessedRouters = [];
         accessedRouters = filterAsyncRouter(asyncRouterMap, roles);
         commit("SET_ROUTERS", accessedRouters);
-        
         resolve(accessedRouters);
       });
     }

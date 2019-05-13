@@ -1,16 +1,19 @@
 import request from "@/utils/request";
 
-export function loginByUsername(res) {
+//用户登陆
+export function login(res) {
   return request({
-    url: "/crawler/login",
+    url: process.env.VUE_APP_BASE_APID + "/sms/users/login",
     method: "post",
     data: res
   });
 }
 
-export function logout() {
+//用户登出
+export function logout(res) {
   return request({
-    url: "/crawler/logout",
-    method: "post"
+    url: process.env.BASE_APIS + "/sms/users/logout",
+    method: "post",
+    data: res
   });
 }

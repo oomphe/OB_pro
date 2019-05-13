@@ -23,3 +23,20 @@ export function searchByName(res) {
     data: res
   });
 }
+
+//获取spy网站登陆信息列表
+export function getSpyToolsList() {
+  return request({
+    url:  process.env.VUE_APP_BASE_API + '/api/sak-spytools',
+    method: 'get'
+  });
+}
+
+export function spyLogin(res) {
+  return request({
+    url: 'https://dropship-spy.com/login/',
+    method: 'post',
+    data: res
+  });
+}
+

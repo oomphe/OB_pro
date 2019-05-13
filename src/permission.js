@@ -1,12 +1,12 @@
 import router from "./router";
 import store from "./store";
-import { Message } from "element-ui";
 import { getToken } from "@/utils/auth";
 
-const whiteList = ["/", "/404", "/401"]; // 免登白名单
+const whiteList = ["/login", "/404", "/401"]; // 免登白名单
 router.beforeEach((to, from, next) => {
-  if (getToken()) {
-    if (to.path === "/") {
+  const token = sessionStorage.getItem("token");
+  if (token) {
+    if (to.path === "/" || to.path === "/login") {
       next({ path: "/homepage" });
     } else {
       if (store.getters.countNum === 0) {
@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) => {
       // 在免登录白名单，直接进入
       next();
     } else {
-      next("/"); // 否则全部重定向到登录页
+      next("/login"); // 否则全部重定向到登录页
     }
   }
 });

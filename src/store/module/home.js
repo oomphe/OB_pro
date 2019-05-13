@@ -1,5 +1,5 @@
 import { addPages } from "@/api/home";
-import { showPages, searchByName } from "../../api/home";
+import { showPages, searchByName, getSpyToolsList, spyLogin } from "../../api/home";
 import { Message } from "element-ui";
 const home = {
   state: {
@@ -73,6 +73,28 @@ const home = {
             reject(error);
           });
       });
+    },
+    GetSpyToolsList({ commit }) {
+      return new Promise((resolve, reject) => {
+        getSpyToolsList()
+          .then(data => {
+            resolve(data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      })
+    },
+    SpyLogin({commit}, res) {
+      return new Promise((resolve, reject) => {
+        spyLogin(res)
+          .then(data => {
+            resolve(data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      })
     }
   }
 };

@@ -5,8 +5,8 @@ import axios from "axios";
 
 // 创建一个axios实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // 基础URL
-  timeout: 5000 // 超时时间
+  baseURL: '', // 基础URL
+  timeout: 15000 // 超时时间
 });
 
 // 响应拦截

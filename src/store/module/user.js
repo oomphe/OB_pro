@@ -1,4 +1,9 @@
-import { loginByUsername, getUserInfo, logOut } from "@/api/user";
+import {
+  login,
+  getUserInfo,
+  logOut,
+  getProductListByKeyword
+} from "@/api/user";
 import { Message } from "element-ui";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 
@@ -8,6 +13,7 @@ const user = {
     status: false,
     roles: [],
     countNum: 0,
+    proList: [],
     token: getToken() // 客户端记号
   },
   mutations: {
@@ -25,32 +31,27 @@ const user = {
     },
     SET_COUNTNUM: (state, data) => {
       state.countNum = data;
+    },
+    SET_PROLIST: (state, data) => {
+      state.proList = data;
     }
   },
   actions: {
-    LoginByUsername({ commit }, res) {
+    LoginByUserEmail({ commit }, res) {
       return new Promise((resolve, reject) => {
-        loginByUsername(res)
+        login(res)
           .then(data => {
-            if (data.data.code == "200") {
+              debugger
               commit("SET_STATUS", true);
               commit("SET_TOKEN", data.data.state);
-              setToken(data.data.state);
-              commit("SET_ROLES", data.data.state.split(","));
+              sessionStorage.setItem("token", data.data.access_token);
+              sessionStorage.setItem("userId", data.data.id);
               Message({
                 showClose: true,
                 message: "登陆成功",
                 duration: 1000,
                 type: "success"
               });
-            } else {
-              Message({
-                showClose: true,
-                message: data.data.msg,
-                duration: 1000,
-                type: "error"
-              });
-            }
             resolve(data);
           })
           .catch(error => {
@@ -90,6 +91,7 @@ const user = {
         commit("SET_STATUS", false);
         commit("SET_ROLES", []);
         removeToken();
+        sessionStorage.clear()
         resolve();
       });
     },

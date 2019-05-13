@@ -3,7 +3,7 @@ import page404 from "../views/error-pages/404.vue";
 import page401 from "../views/error-pages/401.vue";
 export const constantRouterMap = [
   {
-    path: "/",
+    path: "/login",
     name: "login",
     meta: { title: "系统登录", hidden: true },
     component: login
@@ -19,6 +19,12 @@ export const constantRouterMap = [
     name: "page401",
     meta: { title: "权限不足", hidden: true },
     component: page401
+  },
+  {
+    path: "/homepage",
+    name: "homepage",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/homepage.vue")
   }
 ];
 
@@ -26,6 +32,7 @@ export const asyncRouterMap = [
   {
     path: "/homepage",
     name: "homepage",
-    component: () => import(/* webpackChunkName: "about" */ "../views/homepage.vue")
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/homepage.vue")
   }
 ];

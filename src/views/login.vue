@@ -14,18 +14,19 @@
                   <el-input v-model="form.account" @keyup.enter.native="onSubmit" placeholder="用户名"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-input type="password" v-model="form.pass" @keyup.enter.native="onSubmit" placeholder="密码"></el-input>
+                  <el-input
+                    type="password"
+                    v-model="form.pass"
+                    @keyup.enter.native="onSubmit"
+                    placeholder="密码"
+                  ></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button class="login-button" type="primary"  @click.native.prevent="onSubmit">登陆</el-button>
+                  <el-button class="login-button" type="primary" @click.native.prevent="onSubmit">登陆</el-button>
                 </el-form-item>
               </el-form>
               <!-- 弹出层 -->
-              <el-dialog
-                title="提示"
-                :visible.sync="dialogVisible"
-                width="30%"
-              >
+              <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
                 <span>{{errInfo}}</span>
                 <span slot="footer" class="dialog-footer">
                   <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -65,21 +66,25 @@ export default {
       } else if (!this.form.account) {
         this.dialogVisible = true;
         this.errInfo = "请输入用户名";
-      } else{
-        const res= {
-          name: this.form.account,
+      } else {
+        const res = {
+          email: this.form.account,
           password: this.form.pass
-        }
-        this.$store.dispatch("LoginByUsername", res)
-        .then(() => {this.dump()})
-        .catch(err=>{});
+        };
+        this.$store
+          .dispatch("LoginByUserEmail", res)
+          .then(data => {
+            console.log(1)
+            this.dump();
+          })
+          .catch(err => {});
       }
     },
-    dump(){
+    dump() {
       this.$router.replace({ path: "/homepage" });
     },
     to404() {
-      this.$router.push("/404")
+      this.$router.push("/404");
     }
   }
 };
